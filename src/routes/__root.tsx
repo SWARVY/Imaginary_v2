@@ -1,5 +1,6 @@
 import appCss from '../styles.css?url';
 import { ClerkProvider } from '@/shared/lib';
+import { Navigator } from '@/widgets/common';
 import { TanStackDevtools } from '@tanstack/react-devtools';
 import type { QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtoolsPanel } from '@tanstack/react-query-devtools';
@@ -9,6 +10,7 @@ import {
   createRootRouteWithContext,
 } from '@tanstack/react-router';
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
+import { Container, Reshaped } from 'reshaped';
 
 interface MyRouterContext {
   queryClient: QueryClient;
@@ -41,28 +43,38 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="ko">
       <head>
         <HeadContent />
       </head>
       <body>
         <ClerkProvider>
-          {children}
-          <TanStackDevtools
-            config={{
-              position: 'bottom-right',
-            }}
-            plugins={[
-              {
-                name: 'Tanstack Router',
-                render: <TanStackRouterDevtoolsPanel />,
-              },
-              {
-                name: 'Tanstack Query',
-                render: <ReactQueryDevtoolsPanel />,
-              },
-            ]}
-          />
+          <Reshaped theme="slate" defaultColorMode="dark" colorMode="dark">
+            <main className="relative flex h-screen flex-col items-center">
+              <Container
+                className="flex flex-col items-center justify-center space-y-16 py-4"
+                width="1024px"
+              >
+                <Navigator />
+                {children}
+              </Container>
+            </main>
+            <TanStackDevtools
+              config={{
+                position: 'bottom-right',
+              }}
+              plugins={[
+                {
+                  name: 'Tanstack Router',
+                  render: <TanStackRouterDevtoolsPanel />,
+                },
+                {
+                  name: 'Tanstack Query',
+                  render: <ReactQueryDevtoolsPanel />,
+                },
+              ]}
+            />
+          </Reshaped>
         </ClerkProvider>
         <Scripts />
       </body>

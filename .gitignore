@@ -1,12 +1,17 @@
+# Node.js
 node_modules
+
+# OS
 .DS_Store
+
+# Build
 dist
 dist-ssr
-*.local
-count.txt
-.env
+.vinxi
 .nitro
 .tanstack
 .output
-.vinxi
-todos.json
+
+# Environment variables
+.env
+.env.*
