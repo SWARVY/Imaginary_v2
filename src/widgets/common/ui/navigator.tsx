@@ -1,19 +1,22 @@
 import { DOCK_ITEMS } from '../model/dock';
-import { Dock } from '@/shared/ui/dock';
-import { useRouter } from '@tanstack/react-router';
-import { useMemo } from 'react';
+import { Dock, DockItem } from '@/shared/ui/dock';
+import { useMatches, useRouter } from '@tanstack/react-router';
 
 export default function Navigator() {
   const router = useRouter();
+  const matches = useMatches();
 
-  const dockItems = useMemo(
-    () =>
-      DOCK_ITEMS.map((item) => ({
-        ...item,
-        onClick: () => router.navigate({ to: item.path }),
-      })),
-    [router],
+  return (
+    <Dock>
+      {DOCK_ITEMS.map(({ label, path, icon }) => (
+        <DockItem
+          key={label}
+          label={label}
+          icon={icon}
+          onClick={() => router.navigate({ to: path })}
+          isActive={matches.some((match) => match.id === path)}
+        />
+      ))}
+    </Dock>
   );
-
-  return <Dock items={dockItems} />;
 }

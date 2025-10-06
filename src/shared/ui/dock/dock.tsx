@@ -1,42 +1,23 @@
 import { cn } from '@/shared/lib';
-import { ReactNode, useState } from 'react';
+import type { PropsWithChildren, ReactNode } from 'react';
 import { Tooltip } from 'reshaped';
 
 export interface DockItemData {
   icon: ReactNode;
   label: string;
+  isActive?: boolean;
   onClick: () => void;
 }
 
-export interface DockProps {
-  items: DockItemData[];
-}
-
-export function Dock({ items }: DockProps) {
-  const [activeItemIndex, setActiveItemIndex] = useState(-1);
-
+export function Dock({ children }: PropsWithChildren) {
   return (
     <div className="rounded-medium border-neutral-faded flex w-fit items-center gap-x-2 border p-2">
-      {items.map(({ onClick, ...item }, index) => (
-        <DockItem
-          key={item.label}
-          onClick={() => {
-            setActiveItemIndex(index);
-            onClick();
-          }}
-          isActive={activeItemIndex === index}
-          {...item}
-        />
-      ))}
+      {children}
     </div>
   );
 }
 
-interface DockItemProps extends DockItemData {
-  isActive?: boolean;
-}
-
-function DockItem({ icon, label, onClick, isActive }: DockItemProps) {
+export function DockItem({ icon, label, onClick, isActive }: DockItemData) {
   return (
     <div className="relative">
       <Tooltip text={label} color="dark">
