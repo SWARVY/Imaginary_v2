@@ -43,7 +43,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ko">
+    <html lang="ko" dir="ltr" data-rs-theme="slate" data-rs-color-mode="dark">
       <head>
         <HeadContent />
       </head>
@@ -75,8 +75,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
               ]}
             />
           </Reshaped>
+          <Scripts />
         </ClerkProvider>
-        <Scripts />
       </body>
     </html>
   );
