@@ -2,6 +2,7 @@
 @import 'tailwindcss/preflight.css';
 @import 'tailwindcss/utilities.css';
 @import 'reshaped/themes/reshaped/tailwind.css';
+@import 'reshaped/themes/slate/theme.css';
 
 body {
   @apply m-0;
