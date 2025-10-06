@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@clerk/clerk-react": "^5.49.0",
+    "@gsap/react": "^2.1.2",
     "@suspensive/jotai": "^3.10.1",
     "@suspensive/react": "^3.10.1",
     "@suspensive/react-query": "^3.10.1",
@@ -24,11 +25,15 @@
     "@tanstack/react-router-ssr-query": "^1.131.7",
     "@tanstack/react-start": "^1.132.0",
     "@tanstack/router-plugin": "^1.132.0",
+    "clsx": "^2.1.1",
+    "gsap": "^3.13.0",
     "jotai": "^2.15.0",
     "lucide-react": "^0.544.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "reshaped": "^3.7.4",
+    "tailwind-merge": "^3.3.1",
+    "tailwind-variants": "^3.1.1",
     "tailwindcss": "^4.0.6",
     "vite-plugin-oxlint": "^1.4.0",
     "vite-tsconfig-paths": "^5.1.4"
