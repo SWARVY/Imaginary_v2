@@ -10,5 +10,5 @@ RUN pnpm build
 
 FROM base AS runtime
 COPY --from=build /app/.output /app/.output
-EXPOSE 3000
+EXPOSE 3001
 CMD ["pnpm", "start"]
