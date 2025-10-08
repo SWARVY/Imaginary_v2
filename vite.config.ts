@@ -22,6 +22,17 @@ const config = defineConfig({
   ssr: {
     noExternal: ['reshaped'],
   },
+  build: {
+    rollupOptions: {
+      external: [
+        'tanstack-start-injected-head-scripts:v',
+        'tanstack-start-server-fn-manifest:v',
+        /^node:/,
+        'stream',
+        'util',
+      ],
+    },
+  },
 });
 
 export default config;
