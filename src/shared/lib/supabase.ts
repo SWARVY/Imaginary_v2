@@ -1,5 +1,6 @@
 import { createServerClient } from '@supabase/ssr';
 
+// issue: https://github.com/TanStack/router/issues/5196#issuecomment-3348322327
 export async function getSupabaseServerClient() {
   const { getCookies, setCookie } = await import(
     '@tanstack/react-start/server'
