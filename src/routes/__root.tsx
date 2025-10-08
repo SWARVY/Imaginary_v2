@@ -1,5 +1,5 @@
 import appCss from '../styles.css?url';
-import { ClerkProvider } from '@/shared/lib';
+import { getSupabaseServerClient } from '@/shared/lib';
 import { Navigator } from '@/widgets/common';
 import { TanStackDevtools } from '@tanstack/react-devtools';
 import type { QueryClient } from '@tanstack/react-query';
@@ -10,13 +10,38 @@ import {
   createRootRouteWithContext,
 } from '@tanstack/react-router';
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
+import { createServerFn } from '@tanstack/react-start';
+import { getCookies, setCookie } from '@tanstack/react-start/server';
 import { Container, Reshaped } from 'reshaped';
 
 interface MyRouterContext {
   queryClient: QueryClient;
 }
 
+const fetchUser = createServerFn({ method: 'GET' }).handler(async () => {
+  const supabase = getSupabaseServerClient({
+    getCookies,
+    setCookie,
+  });
+  const { data, error: _error } = await supabase.auth.getUser();
+
+  if (!data.user?.email) {
+    return null;
+  }
+
+  return {
+    email: data.user.email,
+  };
+});
+
 export const Route = createRootRouteWithContext<MyRouterContext>()({
+  beforeLoad: async () => {
+    const user = await fetchUser();
+
+    return {
+      user,
+    };
+  },
   head: () => ({
     meta: [
       {
@@ -37,7 +62,6 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       },
     ],
   }),
-
   shellComponent: RootDocument,
 });
 
@@ -48,35 +72,33 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <ClerkProvider>
-          <Reshaped theme="slate" defaultColorMode="dark" colorMode="dark">
-            <main className="relative flex h-screen flex-col items-center">
-              <Container
-                className="flex flex-col items-center justify-center space-y-16 py-4"
-                width="1024px"
-              >
-                <Navigator />
-                {children}
-              </Container>
-            </main>
-            <TanStackDevtools
-              config={{
-                position: 'bottom-right',
-              }}
-              plugins={[
-                {
-                  name: 'Tanstack Router',
-                  render: <TanStackRouterDevtoolsPanel />,
-                },
-                {
-                  name: 'Tanstack Query',
-                  render: <ReactQueryDevtoolsPanel />,
-                },
-              ]}
-            />
-          </Reshaped>
-          <Scripts />
-        </ClerkProvider>
+        <Reshaped theme="slate" defaultColorMode="dark" colorMode="dark">
+          <main className="relative flex h-screen flex-col items-center">
+            <Container
+              className="flex flex-col items-center justify-center space-y-16 py-4"
+              width="1024px"
+            >
+              <Navigator />
+              {children}
+            </Container>
+          </main>
+          <TanStackDevtools
+            config={{
+              position: 'bottom-right',
+            }}
+            plugins={[
+              {
+                name: 'Tanstack Router',
+                render: <TanStackRouterDevtoolsPanel />,
+              },
+              {
+                name: 'Tanstack Query',
+                render: <ReactQueryDevtoolsPanel />,
+              },
+            ]}
+          />
+        </Reshaped>
+        <Scripts />
       </body>
     </html>
   );
