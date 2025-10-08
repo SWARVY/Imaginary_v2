@@ -1,3 +1,3 @@
 export { default as cn } from './cn';
-export * from './supabase';
+export { default as getSupabaseServerClient } from './supabase';
 export * from './query-provider';
