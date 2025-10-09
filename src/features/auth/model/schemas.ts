@@ -1,0 +1,42 @@
+import * as v from 'valibot';
+
+export const AuthSchema = v.object({
+  email: v.pipe(
+    v.string(),
+    v.minLength(1, '이메일을 입력해주세요'),
+    v.email('올바르지 않은 이메일 형식이에요'),
+  ),
+  password: v.pipe(
+    v.string(),
+    v.minLength(8, '8자 이상의 비밀번호를 입력해주세요'),
+    v.maxLength(16, '16자 이하의 비밀번호를 입력해주세요'),
+  ),
+});
+
+export type Auth = v.InferOutput<typeof AuthSchema>;
+
+export const SignUpSchema = v.pipe(
+  v.object({
+    email: v.pipe(
+      v.string(),
+      v.minLength(1, '이메일을 입력해주세요'),
+      v.email('올바르지 않은 이메일 형식이에요'),
+    ),
+    password: v.pipe(
+      v.string(),
+      v.minLength(8, '8자 이상의 비밀번호를 입력해주세요'),
+      v.maxLength(16, '16자 이하의 비밀번호를 입력해주세요'),
+    ),
+    passwordConfirm: v.string(),
+  }),
+  v.forward(
+    v.partialCheck(
+      [['password'], ['passwordConfirm']],
+      (input) => input.password === input.passwordConfirm,
+      '입력하신 비밀번호와 일치하지 않아요',
+    ),
+    ['passwordConfirm'],
+  ),
+);
+
+export type SignUp = v.InferOutput<typeof SignUpSchema>;

@@ -2,6 +2,7 @@ import appCss from '../styles.css?url';
 import { getSupabaseServerClient } from '@/shared/lib';
 import { Navigator } from '@/widgets/common';
 import { TanStackDevtools } from '@tanstack/react-devtools';
+import { FormDevtoolsPlugin } from '@tanstack/react-form-devtools';
 import type { QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtoolsPanel } from '@tanstack/react-query-devtools';
 import {
@@ -18,25 +19,25 @@ interface MyRouterContext {
   queryClient: QueryClient;
 }
 
-const fetchUser = createServerFn({ method: 'GET' }).handler(async () => {
-  const supabase = getSupabaseServerClient({
-    getCookies,
-    setCookie,
-  });
-  const { data, error: _error } = await supabase.auth.getUser();
+export const fetchUserFn = createServerFn({ method: 'GET' }).handler(
+  async () => {
+    const supabase = getSupabaseServerClient({
+      getCookies,
+      setCookie,
+    });
+    const { data, error: _error } = await supabase.auth.getUser();
 
-  if (!data.user?.email) {
-    return null;
-  }
+    if (!data.user?.email) {
+      return null;
+    }
 
-  return {
-    email: data.user.email,
-  };
-});
+    return { ...data.user };
+  },
+);
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
   beforeLoad: async () => {
-    const user = await fetchUser();
+    const user = await fetchUserFn();
 
     return {
       user,
@@ -88,13 +89,14 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             }}
             plugins={[
               {
-                name: 'Tanstack Router',
-                render: <TanStackRouterDevtoolsPanel />,
-              },
-              {
                 name: 'Tanstack Query',
                 render: <ReactQueryDevtoolsPanel />,
               },
+              {
+                name: 'Tanstack Router',
+                render: <TanStackRouterDevtoolsPanel />,
+              },
+              FormDevtoolsPlugin(),
             ]}
           />
         </Reshaped>

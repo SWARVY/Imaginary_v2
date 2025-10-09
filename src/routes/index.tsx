@@ -1,4 +1,4 @@
-import { Shuffle } from '@/shared/ui/shuffle';
+import { LineShadow } from '@/shared/ui/text-animation';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/')({
@@ -8,7 +8,12 @@ export const Route = createFileRoute('/')({
 function App() {
   return (
     <section className="flex flex-col">
-      <Shuffle className="font-bold" text="Hello." loop loopDelay={1} />
+      <LineShadow
+        className="font-family-montserrat text-6xl font-bold italic"
+        shadowColor="white"
+      >
+        IMAGINARY
+      </LineShadow>
     </section>
   );
 }
