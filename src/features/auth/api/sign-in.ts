@@ -14,7 +14,7 @@ export const signInFn = createServerFn({ method: 'POST' })
     });
 
     if (result.error) {
-      throw new Error(result.error.name);
+      throw new Error(result.error.message);
     }
 
     return result.data;

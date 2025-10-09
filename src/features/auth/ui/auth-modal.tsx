@@ -3,7 +3,7 @@ import useSignOut from '../model/use-sign-out';
 import AuthForm from './auth-form';
 import { Slot } from '@radix-ui/react-slot';
 import { ComponentProps } from 'react';
-import { Button, Modal, Text, useToggle, View } from 'reshaped';
+import { Button, Modal, Text, useToast, useToggle, View } from 'reshaped';
 
 interface AuthProps extends Omit<ComponentProps<'button'>, 'ref'> {
   asChild?: boolean;
@@ -39,12 +39,21 @@ interface SignOutProps {
 }
 
 function SignOut({ close }: SignOutProps) {
+  const toast = useToast();
+
   const { mutateAsync: signOut } = useSignOut({
     onSuccess: () => {
       close();
+      toast.show({
+        text: '정상적으로 로그아웃되었어요!',
+        color: 'neutral',
+      });
     },
     onError: (error) => {
-      console.error(error);
+      toast.show({
+        text: error.message ?? '로그아웃에 실패했어요. 다시 시도해주세요',
+        color: 'critical',
+      });
     },
   });
 

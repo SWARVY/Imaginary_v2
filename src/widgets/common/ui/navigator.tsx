@@ -24,7 +24,7 @@ export default function Navigator() {
       ))}
       <AuthModal asChild>
         <DockItem
-          label="Sign Up"
+          label={isSignedIn ? 'Sign Out' : 'Sign In'}
           icon={<Icon svg={isSignedIn ? Lock : Unlock} />}
         />
       </AuthModal>

@@ -107,7 +107,7 @@ function SignInForm({ onSignInSuccess }: SignInFormProps) {
     },
     onError: (error) => {
       toast.show({
-        text: error.message ?? '로그인에 실패했어요. 다시 시도해주세요.',
+        text: error.message ?? '로그인에 실패했어요. 다시 시도해주세요',
         color: 'critical',
       });
     },
@@ -227,7 +227,7 @@ function SignUpForm({ onSignUpSuccess }: SignUpFormProps) {
     },
     onError: (error) => {
       toast.show({
-        text: error.message ?? '회원가입에 실패했어요. 다시 시도해주세요.',
+        text: error.message ?? '회원가입에 실패했어요. 다시 시도해주세요',
         color: 'critical',
       });
     },
@@ -325,7 +325,7 @@ function SignUpForm({ onSignUpSuccess }: SignUpFormProps) {
             elevated
           >
             <Text variant="body-3" weight="bold">
-              {isSubmitting ? <Loader size="small" /> : '로그인'}
+              {isSubmitting ? <Loader size="small" /> : '회원가입'}
             </Text>
           </Button>
         )}
