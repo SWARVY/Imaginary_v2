@@ -3,6 +3,24 @@
 @import 'tailwindcss/utilities.css';
 @import 'reshaped/themes/reshaped/tailwind.css';
 @import 'reshaped/themes/slate/theme.css';
+@import '../public/fonts/fonts.css';
+
+@theme {
+  --font-family-montserrat: 'Montserrat', sans-serif;
+}
+
+@theme inline {
+  --animate-line-shadow: line-shadow 15s linear infinite;
+
+  @keyframes line-shadow {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 100% -100%;
+    }
+  }
+}
 
 body {
   @apply m-0;
