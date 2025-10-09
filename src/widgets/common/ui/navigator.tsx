@@ -1,5 +1,5 @@
 import { DOCK_ITEMS } from '../model/dock';
-import { Auth, useAuthState } from '@/features/auth';
+import { AuthModal, useAuthState } from '@/features/auth';
 import { Dock, DockItem } from '@/shared/ui/dock';
 import { useMatches, useRouter } from '@tanstack/react-router';
 import { Lock, Unlock } from 'lucide-react';
@@ -22,12 +22,12 @@ export default function Navigator() {
           isActive={matches.some((match) => match.id === path)}
         />
       ))}
-      <Auth asChild>
+      <AuthModal asChild>
         <DockItem
           label="Sign Up"
           icon={<Icon svg={isSignedIn ? Lock : Unlock} />}
         />
-      </Auth>
+      </AuthModal>
     </Dock>
   );
 }
