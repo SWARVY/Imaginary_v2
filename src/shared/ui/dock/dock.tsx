@@ -6,7 +6,7 @@ export interface DockItemData {
   icon: ReactNode;
   label: string;
   isActive?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export function Dock({ children }: PropsWithChildren) {
