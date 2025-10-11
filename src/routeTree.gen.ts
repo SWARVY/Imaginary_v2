@@ -9,17 +9,15 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as PostsRouteImport } from './routes/posts'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PostsIndexRouteImport } from './routes/posts/index'
+import { Route as PostsPostIdRouteImport } from './routes/posts/$postId'
+import { Route as AuthenticatedPostsWriteRouteImport } from './routes/_authenticated/posts.write'
+import { Route as AuthenticatedPostsPostIdEditRouteImport } from './routes/_authenticated/posts.$postId.edit'
 
-const PostsRoute = PostsRouteImport.update({
-  id: '/posts',
-  path: '/posts',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -39,52 +37,99 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PostsIndexRoute = PostsIndexRouteImport.update({
+  id: '/posts/',
+  path: '/posts/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PostsPostIdRoute = PostsPostIdRouteImport.update({
+  id: '/posts/$postId',
+  path: '/posts/$postId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedPostsWriteRoute = AuthenticatedPostsWriteRouteImport.update({
+  id: '/posts/write',
+  path: '/posts/write',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedPostsPostIdEditRoute =
+  AuthenticatedPostsPostIdEditRouteImport.update({
+    id: '/posts/$postId/edit',
+    path: '/posts/$postId/edit',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
-  '/posts': typeof PostsRoute
+  '/posts/$postId': typeof PostsPostIdRoute
+  '/posts': typeof PostsIndexRoute
+  '/posts/write': typeof AuthenticatedPostsWriteRoute
+  '/posts/$postId/edit': typeof AuthenticatedPostsPostIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
-  '/posts': typeof PostsRoute
+  '/posts/$postId': typeof PostsPostIdRoute
+  '/posts': typeof PostsIndexRoute
+  '/posts/write': typeof AuthenticatedPostsWriteRoute
+  '/posts/$postId/edit': typeof AuthenticatedPostsPostIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/_authenticated': typeof AuthenticatedRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
-  '/posts': typeof PostsRoute
+  '/posts/$postId': typeof PostsPostIdRoute
+  '/posts/': typeof PostsIndexRoute
+  '/_authenticated/posts/write': typeof AuthenticatedPostsWriteRoute
+  '/_authenticated/posts/$postId/edit': typeof AuthenticatedPostsPostIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/contact' | '/posts'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/posts/$postId'
+    | '/posts'
+    | '/posts/write'
+    | '/posts/$postId/edit'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/contact' | '/posts'
-  id: '__root__' | '/' | '/_authenticated' | '/about' | '/contact' | '/posts'
+  to:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/posts/$postId'
+    | '/posts'
+    | '/posts/write'
+    | '/posts/$postId/edit'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/about'
+    | '/contact'
+    | '/posts/$postId'
+    | '/posts/'
+    | '/_authenticated/posts/write'
+    | '/_authenticated/posts/$postId/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AuthenticatedRoute: typeof AuthenticatedRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
-  PostsRoute: typeof PostsRoute
+  PostsPostIdRoute: typeof PostsPostIdRoute
+  PostsIndexRoute: typeof PostsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/posts': {
-      id: '/posts'
-      path: '/posts'
-      fullPath: '/posts'
-      preLoaderRoute: typeof PostsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -113,15 +158,58 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/posts/': {
+      id: '/posts/'
+      path: '/posts'
+      fullPath: '/posts'
+      preLoaderRoute: typeof PostsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/posts/$postId': {
+      id: '/posts/$postId'
+      path: '/posts/$postId'
+      fullPath: '/posts/$postId'
+      preLoaderRoute: typeof PostsPostIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/posts/write': {
+      id: '/_authenticated/posts/write'
+      path: '/posts/write'
+      fullPath: '/posts/write'
+      preLoaderRoute: typeof AuthenticatedPostsWriteRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/posts/$postId/edit': {
+      id: '/_authenticated/posts/$postId/edit'
+      path: '/posts/$postId/edit'
+      fullPath: '/posts/$postId/edit'
+      preLoaderRoute: typeof AuthenticatedPostsPostIdEditRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
   }
 }
 
+interface AuthenticatedRouteChildren {
+  AuthenticatedPostsWriteRoute: typeof AuthenticatedPostsWriteRoute
+  AuthenticatedPostsPostIdEditRoute: typeof AuthenticatedPostsPostIdEditRoute
+}
+
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedPostsWriteRoute: AuthenticatedPostsWriteRoute,
+  AuthenticatedPostsPostIdEditRoute: AuthenticatedPostsPostIdEditRoute,
+}
+
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AuthenticatedRoute: AuthenticatedRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
-  PostsRoute: PostsRoute,
+  PostsPostIdRoute: PostsPostIdRoute,
+  PostsIndexRoute: PostsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

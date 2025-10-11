@@ -74,9 +74,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <Reshaped theme="slate" defaultColorMode="dark" colorMode="dark">
-          <main className="relative flex h-screen flex-col items-center">
+          <main className="flex h-dvh flex-col items-center">
             <Container
-              className="flex flex-col items-center justify-center space-y-16 py-4"
+              className="relative flex size-full flex-col items-center space-y-16 overflow-y-auto py-4"
               width="1024px"
             >
               <Navigator />
