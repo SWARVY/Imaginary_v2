@@ -1,12 +1,9 @@
-import { DEFAULT_CONTENT } from '../config/editor';
 import getPostInfoOptions from '../model/get-post-info-options';
-import { cn, generateSupabaseImageUrl } from '@/shared/lib';
-import { ko } from '@blocknote/core/locales';
-import { BlockNoteView } from '@blocknote/mantine';
-import { useCreateBlockNote } from '@blocknote/react';
+import { generateSupabaseImageUrl } from '@/shared/lib';
 import { SuspenseQuery } from '@suspensive/react-query';
 import { format } from 'date-fns';
-import { Suspense, useEffect } from 'react';
+import { Suspense } from 'react';
+import Markdown from 'react-markdown';
 import { Image, Text, View } from 'reshaped';
 
 interface PostInfoProps {
@@ -50,32 +47,9 @@ interface PostInfoContentProps {
 }
 
 function PostInfoContent({ initialContent }: PostInfoContentProps) {
-  const editor = useCreateBlockNote({
-    dictionary: ko,
-    initialContent: DEFAULT_CONTENT,
-  });
-
-  useEffect(() => {
-    async function loadInitialHTML() {
-      const blocks = await editor.tryParseMarkdownToBlocks(initialContent!);
-
-      editor.replaceBlocks(editor.document, blocks);
-    }
-
-    if (initialContent) {
-      loadInitialHTML();
-    }
-  }, [editor, initialContent]);
-
   return (
-    <BlockNoteView
-      editor={editor}
-      className={cn('max-h-[calc(80dvh-5rem)]')}
-      theme="dark"
-      linkToolbar
-      sideMenu
-      formattingToolbar
-      editable={false}
-    />
+    <article className="prose text-neutral text-sm">
+      <Markdown>{initialContent}</Markdown>
+    </article>
   );
 }
