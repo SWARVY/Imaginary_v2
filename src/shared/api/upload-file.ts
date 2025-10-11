@@ -1,0 +1,28 @@
+import { getSupabaseServerClient } from '../lib';
+import { createServerFn } from '@tanstack/react-start';
+import { getCookies, setCookie } from '@tanstack/react-start/server';
+import { v4 as uuidv4 } from 'uuid';
+
+export const uploadFileFn = createServerFn({ method: 'POST' })
+  .inputValidator((data) => {
+    if (!(data instanceof FormData)) {
+      throw new Error('INVALID_FORM_DATA');
+    }
+
+    return {
+      file: data.get('file') as File,
+    };
+  })
+  .handler(async ({ data: { file } }) => {
+    const supabase = getSupabaseServerClient({ getCookies, setCookie });
+    const fileName = `${uuidv4()}-${new Date().getTime()}`;
+    const { data, error } = await supabase.storage
+      .from('image')
+      .upload(fileName, file);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data;
+  });
