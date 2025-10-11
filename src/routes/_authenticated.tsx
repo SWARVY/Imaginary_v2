@@ -11,7 +11,10 @@ export const Route = createFileRoute('/_authenticated')({
     }
   },
   errorComponent: ({ error }) => {
-    if (error.message === 'NOT_AUTHENTICATED') {
+    if (
+      error.message === 'NOT_AUTHENTICATED' ||
+      error.message === 'NOT_OWNER'
+    ) {
       throw redirect({ to: '/' });
     }
   },

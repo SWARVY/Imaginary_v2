@@ -15,7 +15,12 @@ import { Button, Card, Grid, Image, Pagination, Text, View } from 'reshaped';
 const DEFAULT_IMAGE_URL =
   'https://supabase.forimaginary.dev/storage/v1/object/public/image//default-image.png';
 
-export default function PostList() {
+interface PostListProps {
+  page: number;
+  limit: number;
+}
+
+export default function PostList({ page, limit }: PostListProps) {
   const router = useRouter();
 
   return (
@@ -29,7 +34,7 @@ export default function PostList() {
         POSTS
       </Text>
       <Suspense>
-        <SuspenseQuery {...getPostsOptions({ page: 1, limit: 10 })}>
+        <SuspenseQuery {...getPostsOptions({ page, limit })}>
           {({ data: { data, pagination } }) => (
             <View
               direction="column"
@@ -44,17 +49,16 @@ export default function PostList() {
                     <PostGridItem post={post} />
                   ))}
                 </Grid>
-
                 <ProgressiveBlur height="50%" position="bottom" />
               </div>
               <Pagination
                 total={pagination.totalPages}
                 previousAriaLabel="Previous Page"
                 nextAriaLabel="Next Page"
-                onChange={() => {
+                onChange={({ page }) => {
                   router.navigate({
                     to: '/posts',
-                    params: { page: pagination.page },
+                    search: { page },
                   });
                 }}
               />

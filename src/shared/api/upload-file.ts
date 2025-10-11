@@ -15,7 +15,8 @@ export const uploadFileFn = createServerFn({ method: 'POST' })
   })
   .handler(async ({ data: { file } }) => {
     const supabase = getSupabaseServerClient({ getCookies, setCookie });
-    const fileName = `${uuidv4()}-${new Date().getTime()}`;
+    const fileName = uuidv4();
+
     const { data, error } = await supabase.storage
       .from('image')
       .upload(fileName, file);
