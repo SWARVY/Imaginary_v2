@@ -46,7 +46,7 @@ export default function PostList({ page, limit }: PostListProps) {
               <div className="relative size-full">
                 <Grid columns={2} gap={4}>
                   {data.map((post) => (
-                    <PostGridItem post={post} />
+                    <PostGridItem key={post.id} post={post} />
                   ))}
                 </Grid>
                 <ProgressiveBlur height="50%" position="bottom" />
