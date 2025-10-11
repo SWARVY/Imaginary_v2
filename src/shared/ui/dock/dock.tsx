@@ -9,9 +9,18 @@ export interface DockItemData {
   onClick?: () => void;
 }
 
-export function Dock({ children }: PropsWithChildren) {
+export interface DockProps extends PropsWithChildren {
+  className?: string;
+}
+
+export function Dock({ children, className }: DockProps) {
   return (
-    <div className="rounded-medium border-neutral-faded flex w-fit items-center gap-x-2 border p-2">
+    <div
+      className={cn(
+        'rounded-medium border-neutral-faded flex w-fit items-center gap-x-2 border p-2',
+        className,
+      )}
+    >
       {children}
     </div>
   );

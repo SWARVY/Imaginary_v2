@@ -11,6 +11,9 @@
     "type": "oxlint --type-aware"
   },
   "dependencies": {
+    "@blocknote/core": "^0.41.1",
+    "@blocknote/mantine": "^0.41.1",
+    "@blocknote/react": "^0.41.1",
     "@gsap/react": "^2.1.2",
     "@radix-ui/react-slot": "^1.2.3",
     "@supabase/ssr": "^0.7.0",
@@ -32,6 +35,7 @@
     "@tanstack/react-start": "^1.132.48",
     "@tanstack/router-plugin": "^1.132.47",
     "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
     "gsap": "^3.13.0",
     "jotai": "^2.15.0",
     "lucide-react": "^0.544.0",
@@ -42,6 +46,7 @@
     "tailwind-merge": "^3.3.1",
     "tailwind-variants": "^3.1.1",
     "tailwindcss": "^4.0.6",
+    "uuid": "^13.0.0",
     "vite-plugin-oxlint": "^1.4.0",
     "vite-tsconfig-paths": "^5.1.4"
   },

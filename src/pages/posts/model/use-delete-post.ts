@@ -1,9 +1,8 @@
-import { signOutFn } from '../api/sign-out';
-import { mutationKey, queryKey } from '@/shared/api';
+import { deletePostFn } from '../api/delete-post';
+import { mutationKey } from '@/shared/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRouter } from '@tanstack/react-router';
 
-export default function useSignOut({
+export default function useDeletePost({
   onSuccess,
   onError,
 }: {
@@ -12,17 +11,14 @@ export default function useSignOut({
 }) {
   const queryClient = useQueryClient();
 
-  const router = useRouter();
-
   return useMutation({
-    mutationKey: mutationKey.auth['sign-out'],
-    mutationFn: signOutFn,
+    mutationKey: mutationKey.posts['delete-post'],
+    mutationFn: deletePostFn,
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: queryKey.auth['fetch-user'],
+        predicate: (query) => query.queryKey[1] === 'get-posts',
       });
       onSuccess?.();
-      router.navigate({ to: '/posts' });
     },
     onError: (error) => {
       onError?.(error);

@@ -14,5 +14,8 @@ export default function useAuthState() {
     retry: 1,
   });
 
-  return { isSignedIn: !!result.data?.email, ...result };
+  const userRole = result.data?.user_metadata?.role;
+  const isOwner = typeof userRole === 'string' && userRole === 'owner';
+
+  return { isSignedIn: !!result.data?.email, isOwner, ...result };
 }
