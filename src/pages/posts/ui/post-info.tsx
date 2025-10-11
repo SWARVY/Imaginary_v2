@@ -7,7 +7,7 @@ import { useCreateBlockNote } from '@blocknote/react';
 import { SuspenseQuery } from '@suspensive/react-query';
 import { format } from 'date-fns';
 import { Suspense, useEffect } from 'react';
-import { Container, Image, Text, View } from 'reshaped';
+import { Image, Text, View } from 'reshaped';
 
 interface PostInfoProps {
   postId: number;
@@ -18,29 +18,27 @@ export default function PostInfo({ postId }: PostInfoProps) {
     <Suspense>
       <SuspenseQuery {...getPostInfoOptions({ id: postId })}>
         {({ data }) => (
-          <Container width="640px" height="100%">
-            <View direction="column" height="100%" width="100%" gap={12}>
-              <View direction="column" width="100%" align="center" gap={4}>
-                <Text className="text-2xl font-semibold">{data.title}</Text>
-                <Text variant="caption-1" color="neutral-faded">
-                  {format(data.created_at, 'yy년 MM월 dd일 HH:mm')}
-                </Text>
-              </View>
-              {data.thumbnail && (
-                <View aspectRatio={16 / 10}>
-                  <Image
-                    src={generateSupabaseImageUrl({
-                      path: data.thumbnail,
-                    })}
-                    alt="thumbnail"
-                    width="100%"
-                    borderRadius="large"
-                  />
-                </View>
-              )}
-              <PostInfoContent initialContent={data.content} />
+          <View direction="column" height="100%" width="100%" gap={12}>
+            <View direction="column" width="100%" align="center" gap={4}>
+              <Text className="text-2xl font-semibold">{data.title}</Text>
+              <Text variant="caption-1" color="neutral-faded">
+                {format(data.created_at, 'yyyy. MM. dd. HH:mm')}
+              </Text>
             </View>
-          </Container>
+            {data.thumbnail && (
+              <View aspectRatio={16 / 10}>
+                <Image
+                  src={generateSupabaseImageUrl({
+                    path: data.thumbnail,
+                  })}
+                  alt="thumbnail"
+                  width="100%"
+                  borderRadius="large"
+                />
+              </View>
+            )}
+            <PostInfoContent initialContent={data.content} />
+          </View>
         )}
       </SuspenseQuery>
     </Suspense>
