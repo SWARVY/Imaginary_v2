@@ -17,7 +17,7 @@ function RouteComponent() {
   const { page, limit } = Route.useSearch();
 
   return (
-    <Container width="640px" height="100%">
+    <Container width="620px" height="100%">
       <View className="relative" width="100%" height="100%">
         <PostList page={page} limit={limit} />
       </View>

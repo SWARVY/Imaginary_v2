@@ -295,7 +295,7 @@ function PostWriterFooter({
       ref={navRef}
       className="fixed bottom-4 left-0 flex w-full justify-center"
     >
-      <Container width="640px">
+      <Container width="480px">
         <View direction="row" gap={4} justify="space-between">
           <Button
             className="flex-1"
