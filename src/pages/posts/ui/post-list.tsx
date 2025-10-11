@@ -173,7 +173,7 @@ function PostGridItem({ post }: PostItemProps) {
             {post.title}
           </Text>
           <Text variant="caption-2" color="neutral-faded">
-            {format(post.created_at, 'yy년 MM월 dd일 HH:mm')}
+            {format(post.created_at, 'yyyy. MM. dd. HH:mm')}
           </Text>
         </div>
         <div

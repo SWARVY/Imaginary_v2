@@ -1,5 +1,6 @@
-import { LineShadow } from '@/shared/ui/text-animation';
+import { Home } from '@/pages/home';
 import { createFileRoute } from '@tanstack/react-router';
+import { Container } from 'reshaped';
 
 export const Route = createFileRoute('/')({
   component: App,
@@ -7,13 +8,8 @@ export const Route = createFileRoute('/')({
 
 function App() {
   return (
-    <section className="flex flex-col">
-      <LineShadow
-        className="font-family-montserrat text-6xl font-bold italic"
-        shadowColor="white"
-      >
-        IMAGINARY
-      </LineShadow>
-    </section>
+    <Container width="640px" height="100%">
+      <Home />
+    </Container>
   );
 }
