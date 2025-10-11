@@ -72,7 +72,7 @@ function Profile() {
             <Image
               className="rounded-full"
               src={USER.image}
-              alt="profile"
+              alt={USER.name}
               width="100%"
             />
           </View>

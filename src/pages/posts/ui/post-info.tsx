@@ -31,7 +31,7 @@ export default function PostInfo({ postId }: PostInfoProps) {
                   src={generateSupabaseImageUrl({
                     path: data.thumbnail,
                   })}
-                  alt="thumbnail"
+                  alt={data.title}
                   width="100%"
                   borderRadius="large"
                 />
