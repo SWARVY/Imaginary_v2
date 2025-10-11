@@ -5,6 +5,8 @@
 @import 'reshaped/themes/slate/theme.css';
 @import '../public/fonts/fonts.css';
 
+@plugin '@tailwindcss/typography';
+
 @theme {
   --font-family-montserrat: 'Montserrat', sans-serif;
 }
