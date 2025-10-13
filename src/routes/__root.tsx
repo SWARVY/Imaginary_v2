@@ -12,7 +12,6 @@ import {
 } from '@tanstack/react-router';
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
 import { createServerFn } from '@tanstack/react-start';
-import { getCookies, setCookie } from '@tanstack/react-start/server';
 import { Container, Reshaped } from 'reshaped';
 
 interface MyRouterContext {
@@ -21,10 +20,8 @@ interface MyRouterContext {
 
 export const fetchUserFn = createServerFn({ method: 'GET' }).handler(
   async () => {
-    const supabase = getSupabaseServerClient({
-      getCookies,
-      setCookie,
-    });
+    const supabase = getSupabaseServerClient();
+
     const { data, error: _error } = await supabase.auth.getUser();
 
     if (!data.user?.email) {

@@ -1,12 +1,11 @@
 import { CreatePostRequestSchema } from '../model/schemas';
 import { getSupabaseServerClient } from '@/shared/lib';
 import { createServerFn } from '@tanstack/react-start';
-import { getCookies, setCookie } from '@tanstack/react-start/server';
 
 export const writePostFn = createServerFn({ method: 'POST' })
   .inputValidator(CreatePostRequestSchema)
   .handler(async ({ data: { title, content, thumbnail } }) => {
-    const supabase = getSupabaseServerClient({ getCookies, setCookie });
+    const supabase = getSupabaseServerClient();
 
     const {
       data: { user },

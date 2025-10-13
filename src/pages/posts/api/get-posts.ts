@@ -2,13 +2,12 @@ import { PostSchema } from '../model/schemas';
 import { PaginationSchema } from '@/shared/api';
 import { getSupabaseServerClient } from '@/shared/lib';
 import { createServerFn } from '@tanstack/react-start';
-import { getCookies, setCookie } from '@tanstack/react-start/server';
 import { safeParse } from 'valibot';
 
 export const getPostsFn = createServerFn({ method: 'GET' })
   .inputValidator(PaginationSchema)
   .handler(async ({ data: { page, limit } }) => {
-    const supabase = getSupabaseServerClient({ getCookies, setCookie });
+    const supabase = getSupabaseServerClient();
 
     const from = (page - 1) * limit;
     const to = from + limit - 1;

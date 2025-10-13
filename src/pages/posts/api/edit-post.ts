@@ -1,12 +1,11 @@
 import { EditPostRequestSchema } from '../model/schemas';
 import { getSupabaseServerClient } from '@/shared/lib';
 import { createServerFn } from '@tanstack/react-start';
-import { getCookies, setCookie } from '@tanstack/react-start/server';
 
 export const editPostFn = createServerFn({ method: 'POST' })
   .inputValidator(EditPostRequestSchema)
   .handler(async ({ data: { id, title, content, thumbnail } }) => {
-    const supabase = getSupabaseServerClient({ getCookies, setCookie });
+    const supabase = getSupabaseServerClient();
 
     const { data, error } = await supabase
       .from('posts')

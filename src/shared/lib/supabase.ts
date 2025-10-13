@@ -1,30 +1,8 @@
 import { createServerClient } from '@supabase/ssr';
+import { createIsomorphicFn } from '@tanstack/react-start';
+import { setCookie, getCookies } from '@tanstack/react-start/server';
 
-// issue: https://github.com/TanStack/router/issues/5196#issuecomment-3348322327
-interface GetSupabaseServerClient {
-  getCookies: () => Record<string, string>;
-  setCookie: (
-    name: string,
-    value: string,
-    options?: {
-      domain?: string | undefined;
-      encode?(value: string): string;
-      expires?: Date | undefined;
-      httpOnly?: boolean | undefined;
-      maxAge?: number | undefined;
-      path?: string | undefined;
-      priority?: 'low' | 'medium' | 'high' | undefined;
-      sameSite?: true | false | 'lax' | 'strict' | 'none' | undefined;
-      secure?: boolean | undefined;
-      partitioned?: boolean;
-    },
-  ) => void;
-}
-
-export default function getSupabaseServerClient({
-  getCookies,
-  setCookie,
-}: GetSupabaseServerClient) {
+const getSupabaseServerClientFn = createIsomorphicFn().server(() => {
   const supabaseUrl = process.env.SUPABASE_URL;
   const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
 
@@ -48,4 +26,14 @@ export default function getSupabaseServerClient({
       },
     },
   });
+});
+
+export default function getSupabaseServerClient() {
+  const supabase = getSupabaseServerClientFn();
+
+  if (!supabase) {
+    throw new Error('SUPABASE_CLIENT_NOT_FOUND');
+  }
+
+  return supabase;
 }
