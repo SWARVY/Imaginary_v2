@@ -1,10 +1,9 @@
 import { getSupabaseServerClient } from '@/shared/lib';
 import { createServerFn } from '@tanstack/react-start';
-import { getCookies, setCookie } from '@tanstack/react-start/server';
 
 export const signOutFn = createServerFn({ method: 'POST' }).handler(
   async () => {
-    const supabase = getSupabaseServerClient({ getCookies, setCookie });
+    const supabase = getSupabaseServerClient();
 
     const result = await supabase.auth.signOut();
 

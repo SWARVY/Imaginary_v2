@@ -1,6 +1,5 @@
 import { getSupabaseServerClient } from '../lib';
 import { createServerFn } from '@tanstack/react-start';
-import { getCookies, setCookie } from '@tanstack/react-start/server';
 import { v4 as uuidv4 } from 'uuid';
 
 export const uploadFileFn = createServerFn({ method: 'POST' })
@@ -14,7 +13,7 @@ export const uploadFileFn = createServerFn({ method: 'POST' })
     };
   })
   .handler(async ({ data: { file } }) => {
-    const supabase = getSupabaseServerClient({ getCookies, setCookie });
+    const supabase = getSupabaseServerClient();
     const fileName = uuidv4();
 
     const { data, error } = await supabase.storage
